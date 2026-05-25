@@ -1,0 +1,1021 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopAssist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0d0f14;
+        --surface: #161921;
+        --border: #252a36;
+        --accent: #f0a500;
+        --amazon: #ff9900;
+        --flipkart: #2874f0;
+        --good: #22c55e;
+        --bad: #f43f5e;
+        --text: #e8eaf0;
+        --muted: #6b7280;
+        --radius: 12px;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        width: 420px;
+        height: 580px;
+        max-height: 580px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* ── Header ── */
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 18px 10px;
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(135deg, #0d0f14 60%, #141720);
+        flex-shrink: 0;
+      }
+      .logo {
+        width: 30px;
+        height: 30px;
+        background: var(--accent);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+      }
+      .header-right {
+        flex: 1;
+        min-width: 0;
+      }
+      .brand {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 15px;
+        letter-spacing: -0.3px;
+      }
+      .brand span {
+        color: var(--accent);
+      }
+      .tagline {
+        font-size: 10px;
+        color: var(--muted);
+        margin-top: 1px;
+      }
+      .header-actions {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .icon-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        color: var(--muted);
+        cursor: pointer;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        transition: all 0.15s;
+        flex-shrink: 0;
+      }
+      .icon-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      /* ── Onboarding overlay ── */
+      .onboarding {
+        position: absolute;
+        inset: 0;
+        background: var(--bg);
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 28px 24px;
+        gap: 0;
+      }
+      .onboarding.hidden {
+        display: none;
+      }
+      .ob-logo {
+        font-size: 40px;
+        margin-bottom: 12px;
+      }
+      .ob-title {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 20px;
+        margin-bottom: 6px;
+        text-align: center;
+      }
+      .ob-title span {
+        color: var(--accent);
+      }
+      .ob-sub {
+        font-size: 12px;
+        color: var(--muted);
+        text-align: center;
+        margin-bottom: 24px;
+      }
+      .ob-steps {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .ob-step {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 12px 14px;
+      }
+      .ob-num {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: rgba(240, 165, 0, 0.15);
+        border: 1px solid rgba(240, 165, 0, 0.4);
+        color: var(--accent);
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .ob-step-text {
+        font-size: 12px;
+        line-height: 1.5;
+        color: var(--text);
+      }
+      .ob-step-text strong {
+        color: var(--accent);
+      }
+      .ob-btn {
+        width: 100%;
+        background: var(--accent);
+        color: #000;
+        border: none;
+        border-radius: var(--radius);
+        padding: 12px;
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 13px;
+        cursor: pointer;
+        transition: opacity 0.15s;
+      }
+      .ob-btn:hover {
+        opacity: 0.88;
+      }
+
+      /* ── Search bar ── */
+      .search-wrap {
+        padding: 10px 18px;
+        display: flex;
+        gap: 8px;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+        position: relative;
+      }
+      .search-input-wrap {
+        flex: 1;
+        position: relative;
+      }
+      .search-input {
+        width: 100%;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        color: var(--text);
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        padding: 9px 14px;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      .search-input::placeholder {
+        color: var(--muted);
+      }
+      .search-input:focus {
+        border-color: var(--accent);
+      }
+      .search-btn {
+        background: var(--accent);
+        color: #000;
+        border: none;
+        border-radius: var(--radius);
+        padding: 9px 16px;
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 12px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition:
+          opacity 0.15s,
+          transform 0.1s;
+        flex-shrink: 0;
+      }
+      .search-btn:hover {
+        opacity: 0.85;
+      }
+      .search-btn:active {
+        transform: scale(0.97);
+      }
+      .search-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      /* ── Search history dropdown ── */
+      .history-dropdown {
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        z-index: 50;
+        display: none;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+      .history-dropdown.open {
+        display: block;
+      }
+      .history-header {
+        padding: 8px 12px 4px;
+        font-size: 10px;
+        color: var(--muted);
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .history-clear {
+        background: none;
+        border: none;
+        color: var(--bad);
+        font-size: 10px;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+      }
+      .history-item {
+        padding: 8px 12px;
+        font-size: 12px;
+        color: var(--text);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.1s;
+      }
+      .history-item:hover {
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .history-item-icon {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .history-empty {
+        padding: 12px;
+        font-size: 12px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      /* ── Detect bar ── */
+      .detect-bar {
+        margin: 0 18px;
+        padding: 7px 12px;
+        background: #1a1f2e;
+        border: 1px solid #2a3148;
+        border-radius: 8px;
+        display: none;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        color: var(--muted);
+        flex-shrink: 0;
+      }
+      .detect-bar.visible {
+        display: flex;
+        margin-top: 8px;
+      }
+      .detect-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--good);
+        flex-shrink: 0;
+      }
+      .detect-name {
+        color: var(--text);
+        font-weight: 500;
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .use-btn {
+        background: transparent;
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        border-radius: 6px;
+        padding: 3px 10px;
+        font-size: 11px;
+        font-family: "Syne", sans-serif;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s;
+        flex-shrink: 0;
+      }
+      .use-btn:hover {
+        background: rgba(240, 165, 0, 0.12);
+      }
+
+      /* ── Skeleton loader ── */
+      .skeleton-wrap {
+        display: none;
+        padding: 14px 18px;
+        flex: 1;
+      }
+      .skeleton-wrap.visible {
+        display: block;
+      }
+      .skeleton-platform-label {
+        width: 70px;
+        height: 10px;
+        border-radius: 4px;
+        background: var(--surface);
+        margin-bottom: 10px;
+        animation: shimmer 1.4s infinite;
+      }
+      .skeleton-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 12px;
+        display: flex;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+      .skeleton-img {
+        width: 52px;
+        height: 52px;
+        border-radius: 8px;
+        background: var(--border);
+        flex-shrink: 0;
+        animation: shimmer 1.4s infinite;
+      }
+      .skeleton-lines {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        justify-content: center;
+      }
+      .skeleton-line {
+        height: 10px;
+        border-radius: 4px;
+        background: var(--border);
+        animation: shimmer 1.4s infinite;
+      }
+      .skeleton-line.short {
+        width: 45%;
+      }
+      .skeleton-line.med {
+        width: 70%;
+      }
+      .skeleton-line.long {
+        width: 90%;
+      }
+      @keyframes shimmer {
+        0% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.5;
+        }
+      }
+
+      /* ── Error ── */
+      .error-box {
+        display: none;
+        margin: 14px 18px;
+        padding: 12px 14px;
+        background: rgba(244, 63, 94, 0.1);
+        border: 1px solid rgba(244, 63, 94, 0.3);
+        border-radius: var(--radius);
+        color: #f87171;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+      .error-box.visible {
+        display: block;
+      }
+
+      /* ── Results (scrollable) ── */
+      .results {
+        display: none;
+        padding: 12px 18px;
+        flex: 1;
+        overflow-y: auto;
+        min-height: 0;
+      }
+      .results.visible {
+        display: block;
+      }
+
+      .results-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .results-title {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 12px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+      }
+      .results-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .query-label {
+        font-size: 11px;
+        color: var(--muted);
+        max-width: 140px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .share-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--muted);
+        cursor: pointer;
+        font-size: 11px;
+        padding: 2px 8px;
+        font-family: "Syne", sans-serif;
+        font-weight: 600;
+        transition: all 0.15s;
+        white-space: nowrap;
+      }
+      .share-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .share-btn.copied {
+        border-color: var(--good);
+        color: var(--good);
+      }
+
+      /* ── Sort bar ── */
+      .sort-bar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+      }
+      .sort-label {
+        font-size: 10px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      .sort-btn {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        color: var(--muted);
+        font-family: "Syne", sans-serif;
+        font-weight: 600;
+        font-size: 10px;
+        padding: 3px 10px;
+        cursor: pointer;
+        transition: all 0.15s;
+        white-space: nowrap;
+      }
+      .sort-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .sort-btn.active {
+        background: rgba(240, 165, 0, 0.12);
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      /* ── Price filter ── */
+      .filter-bar {
+        display: none;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+        padding: 8px 12px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+      }
+      .filter-label {
+        font-size: 10px;
+        color: var(--muted);
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        flex-shrink: 0;
+      }
+      #priceSlider {
+        flex: 1;
+        -webkit-appearance: none;
+        height: 3px;
+        border-radius: 2px;
+        background: var(--border);
+        outline: none;
+        cursor: pointer;
+      }
+      #priceSlider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+        border: 2px solid var(--bg);
+      }
+      #priceRangeLabel {
+        font-size: 10px;
+        color: var(--accent);
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        white-space: nowrap;
+        min-width: 80px;
+        text-align: right;
+      }
+
+      /* ── Product card ── */
+      .platform-section {
+        margin-bottom: 12px;
+      }
+      .platform-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 8px;
+      }
+      .platform-label.amazon {
+        color: var(--amazon);
+      }
+      .platform-label.flipkart {
+        color: var(--flipkart);
+      }
+      .platform-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+      }
+      .platform-label.amazon .platform-dot {
+        background: var(--amazon);
+      }
+      .platform-label.flipkart .platform-dot {
+        background: var(--flipkart);
+      }
+
+      .product-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 11px;
+        display: flex;
+        gap: 11px;
+        align-items: flex-start;
+        margin-bottom: 7px;
+        transition: border-color 0.2s;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .product-card:hover {
+        border-color: #3a4055;
+      }
+      .product-card.best-deal {
+        border-color: rgba(34, 197, 94, 0.35);
+        background: rgba(34, 197, 94, 0.04);
+      }
+
+      .product-img {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        border-radius: 8px;
+        background: #1e2130;
+        flex-shrink: 0;
+      }
+      .product-img-placeholder {
+        width: 50px;
+        height: 50px;
+        border-radius: 8px;
+        background: #1e2130;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        flex-shrink: 0;
+      }
+      .product-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .product-name {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text);
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: 5px;
+      }
+      .product-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .price-row {
+        display: flex;
+        align-items: baseline;
+        gap: 0;
+      }
+      .product-price {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 14px;
+        color: var(--text);
+      }
+      .product-price.cheapest {
+        color: var(--good);
+      }
+      .trend-down {
+        font-size: 10px;
+        color: var(--good);
+        font-weight: 700;
+        margin-left: 5px;
+      }
+      .trend-up {
+        font-size: 10px;
+        color: var(--bad);
+        font-weight: 700;
+        margin-left: 5px;
+      }
+      .trend-flat {
+        font-size: 10px;
+        color: var(--muted);
+        margin-left: 5px;
+      }
+      .product-rating {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .star {
+        color: var(--accent);
+        font-size: 11px;
+      }
+      .best-badge {
+        font-size: 10px;
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        background: rgba(34, 197, 94, 0.15);
+        color: var(--good);
+        padding: 2px 7px;
+        border-radius: 20px;
+        border: 1px solid rgba(34, 197, 94, 0.3);
+        white-space: nowrap;
+      }
+
+      /* ── Empty state ── */
+      .no-results {
+        text-align: center;
+        padding: 20px 16px;
+        background: var(--surface);
+        border-radius: var(--radius);
+        border: 1px dashed var(--border);
+      }
+      .no-results-icon {
+        font-size: 28px;
+        margin-bottom: 8px;
+      }
+      .no-results-title {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 13px;
+        color: var(--text);
+        margin-bottom: 4px;
+      }
+      .no-results-sub {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      /* ── Summary bar ── */
+      .summary-bar {
+        padding: 9px 18px;
+        background: #0f1520;
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .summary-text {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+      .summary-text strong {
+        color: var(--text);
+      }
+      .savings-chip {
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        font-size: 12px;
+        color: var(--good);
+        white-space: nowrap;
+      }
+
+      /* ── Footer ── */
+      .footer {
+        padding: 7px 18px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 10px;
+        color: var(--muted);
+        flex-shrink: 0;
+      }
+
+      /* scrollbar */
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── Onboarding overlay ── -->
+    <div class="onboarding" id="onboarding">
+      <div class="ob-logo">🛒</div>
+      <div class="ob-title">Welcome to <span>ShopAssist</span></div>
+      <div class="ob-sub">
+        Compare prices across Amazon & Flipkart in seconds
+      </div>
+      <div class="ob-steps">
+        <div class="ob-step">
+          <div class="ob-num">1</div>
+          <div class="ob-step-text">
+            <strong>Type any product</strong> — phone, laptop, headphones,
+            anything you want to buy
+          </div>
+        </div>
+        <div class="ob-step">
+          <div class="ob-num">2</div>
+          <div class="ob-step-text">
+            <strong>Hit Compare</strong> — we search Amazon & Flipkart
+            simultaneously
+          </div>
+        </div>
+        <div class="ob-step">
+          <div class="ob-num">3</div>
+          <div class="ob-step-text">
+            <strong>See the best deal</strong> — instantly know where to buy and
+            how much you save
+          </div>
+        </div>
+        <div class="ob-step">
+          <div class="ob-num">4</div>
+          <div class="ob-step-text">
+            <strong>Auto-detect</strong> — open any product on Amazon or
+            Flipkart and we'll compare it automatically
+          </div>
+        </div>
+      </div>
+      <button class="ob-btn" id="obStart">Get Started →</button>
+    </div>
+
+    <!-- ── Header ── -->
+    <div class="header">
+      <div class="logo">🛒</div>
+      <div class="header-right">
+        <div class="brand">Shop<span>Assist</span></div>
+        <div class="tagline">
+          Real-time price comparison · Amazon & Flipkart
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="historyBtn" title="Recent searches">
+          🕐
+        </button>
+        <button class="icon-btn" id="helpBtn" title="How it works">?</button>
+      </div>
+    </div>
+
+    <!-- ── Search ── -->
+    <div class="search-wrap">
+      <div class="search-input-wrap">
+        <input
+          class="search-input"
+          id="searchInput"
+          type="text"
+          placeholder="Search for a product…"
+          autocomplete="off"
+        />
+        <div class="history-dropdown" id="historyDropdown">
+          <div class="history-header">
+            Recent
+            <button class="history-clear" id="clearHistory">Clear</button>
+          </div>
+          <div id="historyList"></div>
+        </div>
+      </div>
+      <button class="search-btn" id="searchBtn">Compare</button>
+    </div>
+
+    <!-- ── Detect bar ── -->
+    <div class="detect-bar" id="detectBar">
+      <div class="detect-dot"></div>
+      <span style="flex-shrink: 0; font-size: 11px">Detected:</span>
+      <span class="detect-name" id="detectName"></span>
+      <button class="use-btn" id="useDetected">Use</button>
+    </div>
+
+    <!-- ── Skeleton loading ── -->
+    <div class="skeleton-wrap" id="skeletonWrap">
+      <div class="skeleton-platform-label" style="margin-bottom: 10px"></div>
+      <div class="skeleton-card">
+        <div class="skeleton-img"></div>
+        <div class="skeleton-lines">
+          <div class="skeleton-line long"></div>
+          <div class="skeleton-line med"></div>
+          <div class="skeleton-line short"></div>
+        </div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-img"></div>
+        <div class="skeleton-lines">
+          <div class="skeleton-line med"></div>
+          <div class="skeleton-line long"></div>
+          <div class="skeleton-line short"></div>
+        </div>
+      </div>
+      <div
+        class="skeleton-platform-label"
+        style="margin-top: 10px; margin-bottom: 10px"
+      ></div>
+      <div class="skeleton-card">
+        <div class="skeleton-img"></div>
+        <div class="skeleton-lines">
+          <div class="skeleton-line long"></div>
+          <div class="skeleton-line short"></div>
+          <div class="skeleton-line med"></div>
+        </div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-img"></div>
+        <div class="skeleton-lines">
+          <div class="skeleton-line med"></div>
+          <div class="skeleton-line long"></div>
+          <div class="skeleton-line short"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Error ── -->
+    <div class="error-box" id="errorBox"></div>
+
+    <!-- ── Results ── -->
+    <div class="results" id="results">
+      <div class="results-header">
+        <span class="results-title">Results</span>
+        <div class="results-actions">
+          <span class="query-label" id="queryLabel"></span>
+          <button class="share-btn" id="shareBtn">⎘ Share</button>
+        </div>
+      </div>
+
+      <div class="sort-bar">
+        <span class="sort-label">Sort:</span>
+        <button class="sort-btn active" data-sort="relevance">Relevance</button>
+        <button class="sort-btn" data-sort="price-asc">Price ↑</button>
+        <button class="sort-btn" data-sort="price-desc">Price ↓</button>
+        <button class="sort-btn" data-sort="rating">Rating</button>
+      </div>
+
+      <div class="filter-bar" id="filterBar">
+        <span class="filter-label">Max Price</span>
+        <input
+          type="range"
+          id="priceSlider"
+          min="0"
+          max="200000"
+          value="200000"
+          step="1000"
+        />
+        <span id="priceRangeLabel">Up to ₹2,00,000</span>
+      </div>
+
+      <div class="platform-section">
+        <div class="platform-label amazon">
+          <div class="platform-dot"></div>
+          Amazon
+        </div>
+        <div id="amazonResults"></div>
+      </div>
+
+      <div class="platform-section">
+        <div class="platform-label flipkart">
+          <div class="platform-dot"></div>
+          Flipkart
+        </div>
+        <div id="flipkartResults"></div>
+      </div>
+    </div>
+
+    <!-- ── Summary bar (pinned) ── -->
+    <div class="summary-bar" id="summaryBar" style="display: none">
+      <div class="summary-text" id="summaryText"></div>
+      <div class="savings-chip" id="savingsChip"></div>
+    </div>
+
+    <!-- ── Footer ── -->
+    <div class="footer">
+      <span>ShopAssist v2.0</span>
+      <span id="footerStatus">Ready</span>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
